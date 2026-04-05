@@ -23,6 +23,35 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
+    // Sticky Header Scroll Effect
+    const header = document.querySelector('header');
+    window.addEventListener('scroll', () => {
+        if (window.scrollY > 50) {
+            header.classList.add('scrolled');
+        } else {
+            header.classList.remove('scrolled');
+        }
+    });
+
+    // Mobile Menu Toggle
+    const navToggle = document.getElementById('nav-toggle');
+    const navLinks = document.querySelector('.nav-links');
+    
+    if (navToggle) {
+        navToggle.addEventListener('click', () => {
+            header.classList.toggle('nav-open');
+            document.body.classList.toggle('no-scroll');
+        });
+    }
+
+    // Close menu when a link is clicked
+    document.querySelectorAll('.nav-links a').forEach(link => {
+        link.addEventListener('click', () => {
+            header.classList.remove('nav-open');
+            document.body.classList.remove('no-scroll');
+        });
+    });
+
     // Reveal animations on scroll
     const revealElements = document.querySelectorAll('.section-reveal');
     const revealObserver = new IntersectionObserver((entries) => {
