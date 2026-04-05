@@ -10,15 +10,20 @@
     --card-border: rgba(0, 255, 204, 0.1);
     
     --font-heading: 'Outfit', sans-serif;
-    --font-body: 'Poppins', sans-serif;
-    --font-mono: 'Fira Code', monospace;
+    --font-body: 'Outfit', sans-serif;
+    --font-mono: 'Space Mono', monospace;
+    
+    --container-width: 1100px;
 }
 
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    scroll-behavior: smooth;
+}
+
+html {
+    scroll-behavior: initial; /* Handled via JS for more control */
 }
 
 body {
@@ -543,25 +548,97 @@ footer {
 
 /* Responsive */
 @media (max-width: 900px) {
+    :root {
+        --container-padding: 1.5rem;
+    }
+
     .about-grid, .two-col-layout {
         grid-template-columns: 1fr;
+        gap: 3rem;
     }
     
     .nav-links {
-        display: none; /* simple mobile nav hide for demo */
+        display: none; 
+    }
+    
+    .main-nav {
+        justify-content: center;
+    }
+
+    .hero-title {
+        font-size: clamp(3rem, 10vw, 5rem);
     }
 }
 
 @media (max-width: 600px) {
+    .section-title {
+        font-size: 1.5rem;
+    }
+
     .hero {
-        padding-top: 6rem;
+        padding-top: 5rem;
+        justify-content: center;
+        text-align: center;
     }
     
     .text-line-wrapper {
-        gap: 1rem;
+        justify-content: center;
+    }
+
+    .neon-line {
+        display: none; /* Hide for cleaner mobile look */
     }
     
     .hero-actions {
         flex-direction: column;
+        width: 100%;
+        gap: 1rem;
     }
+
+    .cyber-btn {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .social-links {
+        flex-wrap: wrap;
+    }
+
+    .skills-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Back to Top Button */
+.back-to-top {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    width: 3rem;
+    height: 3rem;
+    background: var(--card-bg);
+    border: 1px solid var(--primary-neon);
+    color: var(--primary-neon);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    text-decoration: none;
+    font-size: 1.5rem;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s;
+    z-index: 1000;
+    box-shadow: 0 0 10px var(--primary-neon-glow);
+}
+
+.back-to-top.visible {
+    opacity: 1;
+    visibility: visible;
+}
+
+.back-to-top:hover {
+    background: var(--primary-neon);
+    color: var(--bg-color);
+    box-shadow: 0 0 20px var(--primary-neon);
 }
