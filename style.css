@@ -667,17 +667,8 @@ section {
 
 /* Contact */
 .contact-section {
-    text-align: center;
-    max-width: 600px;
+    text-align: left;
     margin-bottom: 6rem;
-}
-
-.contact-section .section-title {
-    justify-content: center;
-}
-
-.contact-section .section-title::after {
-    display: none;
 }
 
 .contact-desc {
@@ -693,7 +684,7 @@ section {
 
 .social-links {
     display: flex;
-    justify-content: center;
+    justify-content: flex-start;
     gap: 1rem;
     font-family: var(--font-mono);
 }

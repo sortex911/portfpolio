@@ -89,13 +89,20 @@ document.addEventListener('DOMContentLoaded', () => {
 
     revealElements.forEach(el => revealObserver.observe(el));
 
-    // Parallax background glow
+    // Parallax background glow and hero section
     window.addEventListener('scroll', () => {
         const scrolled = window.scrollY;
         const glow1 = document.querySelector('.glow-1');
         const glow2 = document.querySelector('.glow-2');
         if (glow1) glow1.style.transform = `translateY(${scrolled * 0.1}px)`;
         if (glow2) glow2.style.transform = `translateY(${scrolled * -0.05}px)`;
+        
+        // Hero Section Parallax Effect
+        const heroContent = document.querySelector('.hero-content');
+        if (heroContent) {
+            heroContent.style.transform = `translateY(${scrolled * 0.35}px)`;
+            heroContent.style.opacity = Math.max(0, 1 - (scrolled * 0.0025));
+        }
         
         // Show/Hide back to top
         const backToTop = document.querySelector('.back-to-top');
