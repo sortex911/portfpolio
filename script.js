@@ -1,4 +1,30 @@
 document.addEventListener('DOMContentLoaded', () => {
+    /* ── Liquid Glass mouse-tracking refraction on header ── */
+    const header = document.querySelector('header');
+
+    document.addEventListener('mousemove', (e) => {
+        if (!header) return;
+        const rect = header.getBoundingClientRect();
+        // normalise 0–1 across viewport width / header height zone
+        const x = (e.clientX / window.innerWidth) * 100;
+        const y = Math.max(0, Math.min(1, (e.clientY - rect.top) / rect.height)) * 100;
+
+        // shift the specular highlight based on cursor X
+        header.style.setProperty('--glass-x', `${x}%`);
+        header.style.setProperty('--glass-y', `${y}%`);
+
+        // dynamic colour tilt — cyan <-> purple as cursor moves left <-> right
+        const cyanAlpha  = 0.04 + (1 - x / 100) * 0.06;
+        const purpleAlpha = 0.04 + (x / 100) * 0.06;
+        header.style.background = `linear-gradient(
+            135deg,
+            rgba(255,255,255,0.07) 0%,
+            rgba(0,255,204,${cyanAlpha.toFixed(2)}) ${x * 0.4}%,
+            rgba(176,0,255,${purpleAlpha.toFixed(2)}) ${40 + x * 0.4}%,
+            rgba(255,255,255,0.03) 100%
+        )`;
+    });
+
     // Mobile height fix for VH units
     const setHeight = () => {
         let vh = window.innerHeight * 0.01;
@@ -24,7 +50,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // Sticky Header Scroll Effect
-    const header = document.querySelector('header');
     window.addEventListener('scroll', () => {
         if (window.scrollY > 50) {
             header.classList.add('scrolled');
