@@ -6,7 +6,7 @@
     --primary-alt-glow: rgba(176, 0, 255, 0.2);
     --text-main: #e2e8f0;
     --text-muted: #94a3b8;
-    --card-bg: rgba(15, 23, 42, 0.6);
+    --card-bg: rgba(0, 0, 0, 0.4);
     --card-border: rgba(0, 255, 204, 0.1);
     
     --font-heading: 'Outfit', sans-serif;
@@ -110,10 +110,10 @@ body {
 }
 
 @keyframes glassIridescent {
-    0%   { border-color: rgba(0,255,204,0.25) rgba(176,0,255,0.12) rgba(0,150,255,0.2) rgba(0,255,204,0.12); }
-    33%  { border-color: rgba(176,0,255,0.25) rgba(0,255,204,0.12) rgba(255,60,120,0.2) rgba(176,0,255,0.12); }
-    66%  { border-color: rgba(0,150,255,0.25) rgba(255,60,120,0.12) rgba(0,255,204,0.2) rgba(0,150,255,0.12); }
-    100% { border-color: rgba(0,255,204,0.25) rgba(176,0,255,0.12) rgba(0,150,255,0.2) rgba(0,255,204,0.12); }
+    0%   { border-color: rgba(0,255,204,0.25) rgba(0,255,204,0.12) rgba(176,0,255,0.2) rgba(0,255,204,0.12); }
+    33%  { border-color: rgba(0,255,204,0.25) rgba(176,0,255,0.12) rgba(176,0,255,0.2) rgba(0,255,204,0.12); }
+    66%  { border-color: rgba(176,0,255,0.25) rgba(0,255,204,0.12) rgba(0,255,204,0.2) rgba(176,0,255,0.12); }
+    100% { border-color: rgba(0,255,204,0.25) rgba(0,255,204,0.12) rgba(176,0,255,0.2) rgba(0,255,204,0.12); }
 }
 
 /* Header – Liquid Glass */
@@ -512,11 +512,43 @@ section {
     margin-bottom: 0.5rem;
 }
 
-/* Skills Grid */
-.skills-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 2rem;
+.skills-wrapper {
+    width: 100%;
+    min-height: 500px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    perspective: 1000px;
+    margin: 2rem 0;
+}
+
+.skills-slider {
+    width: 100%;
+    max-width: 400px;
+    height: 350px;
+    position: relative;
+    transform-style: preserve-3d;
+}
+
+/* Remove hover transform since GSAP manages it */
+.skill-slide.skill-card:hover {
+    transform: none;
+    box-shadow: 0 5px 20px var(--primary-neon-glow);
+}
+
+.skill-slide {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    backface-visibility: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    z-index: 10;
 }
 
 .skill-card {
@@ -549,62 +581,207 @@ section {
     color: var(--text-muted);
 }
 
-/* Projects Section */
-.projects-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 2rem;
+/* Projects Section – GSAP Horizontal Scroll Panels */
+.projects-section {
+    max-width: 100% !important;
+    padding: 0 !important;
+    overflow: hidden;
+    position: relative;
+}
+
+.projects-section .section-title {
+    position: absolute;
+    top: 2rem;
+    left: 5%;
+    z-index: 10;
+    margin-bottom: 0;
+}
+
+.projects-container {
+    display: flex;
+    flex-wrap: nowrap;
+    width: 300vw;
+    height: 100vh;
+    will-change: transform;
 }
 
 .project-card {
-    background: var(--card-bg);
+    width: 100vw;
+    height: 100vh;
+    flex-shrink: 0;
+    background: var(--bg-color);
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 4rem;
+    padding: 7rem 7% 4rem;
+    position: relative;
+    overflow: hidden;
+    border: none;
+    border-radius: 0;
+    transition: none;
+}
+
+/* Subtle lime accent line on left edge of each panel */
+.project-card::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 10%;
+    height: 80%;
+    width: 3px;
+    background: linear-gradient(to bottom, transparent, var(--primary-neon), transparent);
+    opacity: 0.5;
+}
+
+.project-image {
+    flex: 1.2;
+    border-radius: 12px;
+    overflow: hidden;
     border: 1px solid var(--card-border);
-    border-radius: 8px;
-    padding: 2rem;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.5), 0 0 30px var(--primary-neon-glow);
+    max-width: 55%;
+    transition: box-shadow 0.4s;
+}
+
+.project-image img {
+    width: 100%;
+    height: auto;
+    display: block;
+    object-fit: cover;
+    transition: transform 0.6s ease, opacity 0.3s;
+    opacity: 0.85;
+}
+
+.project-card:hover .project-image img {
+    transform: scale(1.03);
+    opacity: 1;
+}
+
+.project-card:hover .project-image {
+    box-shadow: 0 25px 70px rgba(0,0,0,0.6), 0 0 50px var(--primary-neon-glow);
+}
+
+.project-content {
+    flex: 1;
     display: flex;
     flex-direction: column;
-    transition: all 0.3s;
+    gap: 1.2rem;
+    max-width: 42%;
 }
 
 .project-card:hover {
-    border-color: var(--primary-alt);
-    box-shadow: 0 5px 20px var(--primary-alt-glow);
+    border-color: transparent;
+    box-shadow: none;
 }
 
 .project-top {
-    margin-bottom: 1.5rem;
+    margin-bottom: 0;
+}
+
+.project-number {
+    font-family: var(--font-mono);
+    font-size: 5rem;
+    font-weight: 800;
+    color: var(--primary-neon);
+    opacity: 0.08;
+    line-height: 1;
+    position: absolute;
+    right: 7%;
+    bottom: 2rem;
+    user-select: none;
+    pointer-events: none;
 }
 
 .project-tag {
     font-family: var(--font-mono);
     font-size: 0.8rem;
     color: var(--primary-neon);
-    margin-bottom: 0.5rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 0.3rem;
     display: block;
 }
 
 .project-top h3 {
-    font-size: 1.3rem;
+    font-size: 2.2rem;
+    font-weight: 700;
+    line-height: 1.2;
+    color: var(--text-main);
 }
 
 .project-content p {
     color: var(--text-muted);
-    font-size: 0.95rem;
-    margin-bottom: 1.5rem;
+    font-size: 1rem;
+    line-height: 1.7;
+    margin-bottom: 0;
     flex-grow: 1;
 }
 
 .project-link {
     font-family: var(--font-mono);
-    color: var(--text-main);
+    color: var(--primary-neon);
     text-decoration: none;
     font-size: 0.9rem;
     align-self: flex-start;
-    transition: color 0.3s;
+    transition: all 0.3s;
+    border: 1px solid var(--primary-neon);
+    padding: 0.5rem 1.2rem;
+    border-radius: 4px;
+    letter-spacing: 1px;
 }
 
 .project-link:hover {
-    color: var(--primary-alt);
+    background: var(--primary-neon-glow);
+    box-shadow: 0 0 15px var(--primary-neon-glow);
+}
+
+/* Scroll progress indicator inside projects */
+.projects-progress {
+    position: absolute;
+    bottom: 2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 0.5rem;
+    z-index: 10;
+    pointer-events: none;
+}
+
+.progress-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--text-muted);
+    opacity: 0.3;
+    transition: opacity 0.3s, background 0.3s;
+}
+
+.progress-dot.active {
+    background: var(--primary-neon);
+    opacity: 1;
+    box-shadow: 0 0 8px var(--primary-neon);
+}
+
+/* Scroll hint arrow */
+.scroll-hint {
+    position: absolute;
+    bottom: 2rem;
+    right: 5%;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    animation: hintPulse 2s ease-in-out infinite;
+    pointer-events: none;
+}
+
+@keyframes hintPulse {
+    0%, 100% { opacity: 0.4; transform: translateX(0); }
+    50% { opacity: 0.9; transform: translateX(6px); }
 }
 
 /* Education & Goals */
@@ -869,6 +1046,7 @@ footer {
     .cyber-btn {
         width: 100%;
         justify-content: center;
+        text-align: center;
     }
 
     .social-links {
@@ -877,6 +1055,96 @@ footer {
 
     .skills-grid {
         grid-template-columns: 1fr;
+    }
+}
+
+/* ── Projects section: mobile vertical stack ── */
+@media (max-width: 900px) {
+    /* Reset the GSAP-intended full-screen panel layout */
+    .projects-section {
+        overflow: visible;
+        height: auto !important;
+        padding: 5rem 5% 4rem !important;
+        max-width: 1200px !important;
+        margin: 0 auto;
+    }
+
+    /* Kill the wide flex row used by GSAP */
+    .projects-container {
+        display: flex;
+        flex-direction: column;
+        width: 100% !important;
+        height: auto !important;
+        gap: 2rem;
+        transform: none !important; /* override any GSAP transform */
+    }
+
+    /* Full-width stacked card */
+    .project-card {
+        width: 100% !important;
+        height: auto !important;
+        flex-direction: column;
+        padding: 2rem 1.5rem;
+        border: 1px solid var(--card-border);
+        border-radius: 12px;
+        background: var(--card-bg);
+        gap: 1.5rem;
+    }
+
+    .project-card::before {
+        display: none; /* remove left accent line */
+    }
+
+    .project-image {
+        max-width: 100%;
+        width: 100%;
+        flex: none;
+    }
+
+    .project-content {
+        max-width: 100%;
+        width: 100%;
+        flex: none;
+        gap: 0.8rem;
+    }
+
+    .project-top h3 {
+        font-size: 1.5rem;
+    }
+
+    .project-number {
+        font-size: 3rem;
+        right: 1rem;
+        bottom: 0.5rem;
+    }
+
+    /* Hide scroll hint and progress dots — not needed for vertical layout */
+    .projects-progress,
+    .scroll-hint {
+        display: none;
+    }
+
+    /* Restore section title positioning */
+    .projects-section .section-title {
+        position: relative;
+        top: auto;
+        left: auto;
+        margin-bottom: 2rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .project-card {
+        padding: 1.5rem 1rem;
+    }
+
+    .project-top h3 {
+        font-size: 1.3rem;
+    }
+
+    .project-link {
+        width: 100%;
+        text-align: center;
     }
 }
 

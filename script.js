@@ -121,4 +121,121 @@ document.addEventListener('DOMContentLoaded', () => {
             line.style.opacity = '1';
         }, 800 + (index * 300));
     });
+
+    // Skills 3D ScrollTrigerr Animation
+    if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
+        const skillsSlides = gsap.utils.toArray(".skill-slide");
+        if (skillsSlides.length > 0) {
+            const delay = 0.5;
+            const ttl = gsap.timeline({
+                defaults: {
+                    ease: "power1.inOut",
+                    transformOrigin: "center center -150px"
+                },
+                scrollTrigger: {
+                    trigger: ".skills-wrapper",
+                    start: "center center",
+                    end: "+=" + (skillsSlides.length - 1) * 80 + "%",
+                    pin: ".skills-section",
+                    scrub: true,
+                }
+            });
+
+            gsap.set(skillsSlides, {
+                rotationX: (i) => (i ? -90 : 0),
+                transformOrigin: "center center -150px"
+            });
+
+            skillsSlides.forEach((slide, i) => {
+                const nextSlide = skillsSlides[i + 1];
+                if (!nextSlide) return;
+                ttl.to(
+                    slide,
+                    {
+                        rotationX: 90,
+                        onComplete: () => gsap.set(slide, { rotationX: -90 })
+                    },
+                    "+=" + delay
+                ).to(
+                    nextSlide,
+                    {
+                        rotationX: 0
+                    },
+                    "<"
+                );
+            });
+            // Keep final slide on the screen
+            ttl.to({}, { duration: delay });
+        }
+        
+        // Projects GSAP Horizontal ScrollTrigger — desktop only
+        const projectCards = gsap.utils.toArray(".project-card");
+        const dots = document.querySelectorAll(".progress-dot");
+        const scrollHint = document.querySelector(".scroll-hint");
+        const totalCards = projectCards.length;
+
+        const isDesktop = window.innerWidth > 900;
+
+        if (totalCards > 0 && isDesktop) {
+            // Set initial state: first card visible, rest hidden
+            projectCards.forEach((card, i) => {
+                const img = card.querySelector(".project-image");
+                const content = card.querySelector(".project-content");
+                const num = card.querySelector(".project-number");
+                gsap.set(img,     { x: i === 0 ?  0 : -70, opacity: i === 0 ? 1 : 0 });
+                gsap.set(content, { x: i === 0 ?  0 :  70, opacity: i === 0 ? 1 : 0 });
+                if (num) gsap.set(num, { opacity: i === 0 ? 1 : 0, y: 0 });
+            });
+
+            // Main horizontal pin + scrub animation
+            const horizontalScroll = gsap.to(projectCards, {
+                xPercent: -100 * (totalCards - 1),
+                ease: "none",
+                scrollTrigger: {
+                    trigger: ".projects-section",
+                    pin: true,
+                    scrub: 1.2,
+                    snap: {
+                        snapTo: 1 / (totalCards - 1),
+                        duration: { min: 0.3, max: 0.6 },
+                        ease: "power2.inOut"
+                    },
+                    end: () => "+=" + window.innerWidth * (totalCards - 1),
+                    onUpdate(self) {
+                        // Sync progress dots
+                        const current = Math.round(self.progress * (totalCards - 1));
+                        dots.forEach((dot, i) => dot.classList.toggle("active", i === current));
+                        // Fade scroll hint out after leaving first panel
+                        if (scrollHint) {
+                            gsap.to(scrollHint, { opacity: self.progress > 0.05 ? 0 : 1, duration: 0.4, overwrite: "auto" });
+                        }
+                    }
+                }
+            });
+
+            // Per-panel entrance animations using containerAnimation
+            projectCards.forEach((card, i) => {
+                if (i === 0) return; // first panel already visible
+                const img     = card.querySelector(".project-image");
+                const content = card.querySelector(".project-content");
+                const num     = card.querySelector(".project-number");
+
+                ScrollTrigger.create({
+                    trigger: card,
+                    containerAnimation: horizontalScroll,
+                    start: "left 85%",
+                    onEnter() {
+                        gsap.to(img,     { x: 0, opacity: 1, duration: 0.75, ease: "power3.out" });
+                        gsap.to(content, { x: 0, opacity: 1, duration: 0.75, delay: 0.12, ease: "power3.out" });
+                        if (num) gsap.to(num, { opacity: 1, duration: 0.5, delay: 0.25 });
+                    },
+                    onLeaveBack() {
+                        gsap.to(img,     { x: -70, opacity: 0, duration: 0.4 });
+                        gsap.to(content, { x:  70, opacity: 0, duration: 0.4 });
+                        if (num) gsap.to(num, { opacity: 0, duration: 0.3 });
+                    }
+                });
+            });
+        }
+    }
 });

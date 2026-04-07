@@ -99,41 +99,43 @@
         <!-- Skills Section -->
         <section class="skills-section section-reveal" id="skills">
             <h2 class="section-title">02. Arsenal (Skills)</h2>
-            <div class="skills-grid">
-                <div class="skill-card">
-                    <div class="skill-icon">🐧</div>
-                    <h3>Linux Systems</h3>
-                    <p>Proficient in command-line operations, scripting, and system administration on Debian-based systems.</p>
-                </div>
-                <div class="skill-card">
-                    <div class="skill-icon">🌐</div>
-                    <h3>Networking</h3>
-                    <p>Understanding of OSI model, TCP/IP, subnetting, and network traffic analysis.</p>
-                </div>
-                <div class="skill-card">
-                    <div class="skill-icon">💻</div>
-                    <h3>Programming</h3>
-                    <p>Writing automation and security scripts in Python and Bash.</p>
-                </div>
-                <div class="skill-card">
-                    <div class="skill-icon">🛡️</div>
-                    <h3>Web Security</h3>
-                    <p>Familiar with OWASP Top 10 vulnerabilities (SQLi, XSS) and basic web application testing.</p>
-                </div>
-                <div class="skill-card">
-                    <div class="skill-icon">🔍</div>
-                    <h3>Vulnerability Scanning</h3>
-                    <p>Experience using tools like Nmap, Wireshark, and Metasploit for security assessments.</p>
-                </div>
-                <div class="skill-card">
-                    <div class="skill-icon">🕸️</div>
-                    <h3>Web Development</h3>
-                    <p>Building responsive and dynamic websites using HTML, CSS, JavaScript, and modern frameworks.</p>
-                </div>
-                <div class="skill-card">
-                    <div class="skill-icon">📱</div>
-                    <h3>App Development</h3>
-                    <p>Creating cross-platform mobile applications focused on seamless user experiences.</p>
+            <div class="skills-wrapper">
+                <div class="skills-slider">
+                    <div class="skill-slide skill-card">
+                        <div class="skill-icon">🐧</div>
+                        <h3>Linux Systems</h3>
+                        <p>Proficient in command-line operations, scripting, and system administration on Debian-based systems.</p>
+                    </div>
+                    <div class="skill-slide skill-card">
+                        <div class="skill-icon">🌐</div>
+                        <h3>Networking</h3>
+                        <p>Understanding of OSI model, TCP/IP, subnetting, and network traffic analysis.</p>
+                    </div>
+                    <div class="skill-slide skill-card">
+                        <div class="skill-icon">💻</div>
+                        <h3>Programming</h3>
+                        <p>Writing automation and security scripts in Python and Bash.</p>
+                    </div>
+                    <div class="skill-slide skill-card">
+                        <div class="skill-icon">🛡️</div>
+                        <h3>Web Security</h3>
+                        <p>Familiar with OWASP Top 10 vulnerabilities (SQLi, XSS) and basic web application testing.</p>
+                    </div>
+                    <div class="skill-slide skill-card">
+                        <div class="skill-icon">🔍</div>
+                        <h3>Vulnerability Scanning</h3>
+                        <p>Experience using tools like Nmap, Wireshark, and Metasploit for security assessments.</p>
+                    </div>
+                    <div class="skill-slide skill-card">
+                        <div class="skill-icon">🕸️</div>
+                        <h3>Web Development</h3>
+                        <p>Building responsive and dynamic websites using HTML, CSS, JavaScript, and modern frameworks.</p>
+                    </div>
+                    <div class="skill-slide skill-card">
+                        <div class="skill-icon">📱</div>
+                        <h3>App Development</h3>
+                        <p>Creating cross-platform mobile applications focused on seamless user experiences.</p>
+                    </div>
                 </div>
             </div>
         </section>
@@ -141,38 +143,58 @@
         <!-- Projects Section -->
         <section class="projects-section section-reveal" id="projects">
             <h2 class="section-title">03. Executed Projects</h2>
-            <div class="projects-grid">
+            <div class="projects-container">
                 <div class="project-card">
+                    <div class="project-image">
+                        <img src="https://placehold.co/700x450/030305/00ffcc?text=Port+Scanner" alt="Custom Port Scanner">
+                    </div>
                     <div class="project-content">
                         <div class="project-top">
                             <span class="project-tag">Python</span>
                             <h3>Custom Port Scanner</h3>
                         </div>
                         <p>A multi-threaded TCP port scanner built in Python to quickly identify open ports and services on a target network, inspired by basic Nmap functionality.</p>
-                        <a href="#" class="project-link">View Source_</a>
+                        <a href="#" class="project-link">View Source →</a>
                     </div>
+                    <span class="project-number">01</span>
                 </div>
                 <div class="project-card">
+                    <div class="project-image">
+                        <img src="https://placehold.co/700x450/030305/00ffcc?text=Recon+Automation" alt="Network Recon Automation">
+                    </div>
                     <div class="project-content">
                         <div class="project-top">
-                            <span class="project-tag">Bash/Linux</span>
+                            <span class="project-tag">Bash / Linux</span>
                             <h3>Network Recon Automation</h3>
                         </div>
                         <p>A bash script that automates the initial phase of reconnaissance, combining ping sweeps, whois lookups, and basic DNS enumeration.</p>
-                        <a href="#" class="project-link">View Source_</a>
+                        <a href="#" class="project-link">View Source →</a>
                     </div>
+                    <span class="project-number">02</span>
                 </div>
                 <div class="project-card">
+                    <div class="project-image">
+                        <img src="https://placehold.co/700x450/030305/00ffcc?text=Vulnerable+App" alt="Vulnerable App Analysis">
+                    </div>
                     <div class="project-content">
                         <div class="project-top">
                             <span class="project-tag">Web Sec</span>
                             <h3>Vulnerable App Analysis</h3>
                         </div>
                         <p>Deployed a local intentionally vulnerable application (like DVWA) and documented a complete vulnerability assessment report detailing exploitation and mitigation.</p>
-                        <a href="#" class="project-link">View Report_</a>
+                        <a href="#" class="project-link">View Report →</a>
                     </div>
+                    <span class="project-number">03</span>
                 </div>
             </div>
+            <!-- Progress dots -->
+            <div class="projects-progress">
+                <div class="progress-dot active" id="dot-0"></div>
+                <div class="progress-dot" id="dot-1"></div>
+                <div class="progress-dot" id="dot-2"></div>
+            </div>
+            <!-- Scroll hint -->
+            <div class="scroll-hint">scroll ›</div>
         </section>
 
         <!-- Education & Goals Section -->
@@ -198,10 +220,9 @@
             </div>
         </section>
 
-        <!-- Contact Section -->
         <section class="contact-section section-reveal" id="contact">
             <h2 class="section-title">06. Establish Connection</h2>
-            <p class="contact-desc">Currently learning and building. I'm open to connections, collaborations, and discussions about cybersecurity.</p>
+            <p class="contact-desc">Learning and building in cybersecurity. Open to connect.</p>
             <a href="mailto:psabhishekp@gmail.com" class="cyber-btn primary main-contact-btn">
                 <span class="social-link-icon">
                     <svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
@@ -241,6 +262,8 @@
 
     <a href="#hero" class="back-to-top" aria-label="Back to top">↑</a>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
     <script src="script.js"></script>
 </body>
 </html>
