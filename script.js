@@ -19,7 +19,7 @@ document.addEventListener('DOMContentLoaded', () => {
         header.style.background = `linear-gradient(
             135deg,
             rgba(255,255,255,0.07) 0%,
-            rgba(0,255,204,${cyanAlpha.toFixed(2)}) ${x * 0.4}%,
+            rgba(255,42,109,${cyanAlpha.toFixed(2)}) ${x * 0.4}%,
             rgba(176,0,255,${purpleAlpha.toFixed(2)}) ${40 + x * 0.4}%,
             rgba(255,255,255,0.03) 100%
         )`;
@@ -121,6 +121,66 @@ document.addEventListener('DOMContentLoaded', () => {
             line.style.opacity = '1';
         }, 800 + (index * 300));
     });
+
+    // Header animation from public/headanimation image sequence (Scroll-driven)
+    const heroBg = document.querySelector('.hero-bg');
+    if (heroBg && typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
+        const totalFrames = 239;
+        const images = [];
+
+        // Clear existing background image and use canvas for state-of-the-art smoothness
+        heroBg.style.backgroundImage = 'none';
+        
+        const canvas = document.createElement('canvas');
+        const ctx = canvas.getContext('2d');
+        canvas.style.width = '100%';
+        canvas.style.height = '100%';
+        canvas.style.objectFit = 'cover';
+        heroBg.appendChild(canvas);
+
+        const frameUrl = (num) => `assets/public/headanimation/ezgif-frame-${String(num).padStart(3, '0')}.jpg`;
+
+        // Render a specific frame to the canvas
+        const renderFrame = (index) => {
+            const img = images[index];
+            if (img && img.complete && img.naturalWidth > 0) {
+                if (canvas.width !== img.naturalWidth) {
+                    canvas.width = img.naturalWidth;
+                    canvas.height = img.naturalHeight;
+                }
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                ctx.drawImage(img, 0, 0);
+            }
+        };
+
+        // Advance preload all frames
+        let imagesLoaded = 0;
+        for (let i = 1; i <= totalFrames; i++) {
+            const img = new Image();
+            img.onload = () => {
+                imagesLoaded++;
+                if (i === 1) renderFrame(0); // Render first frame as soon as it's ready
+            };
+            img.src = frameUrl(i);
+            images.push(img);
+        }
+
+        // GSAP ScrollTrigger Sequence
+        const sequence = { frame: 0 };
+        gsap.to(sequence, {
+            frame: totalFrames - 1,
+            snap: "frame",
+            ease: "none",
+            scrollTrigger: {
+                trigger: ".hero",
+                start: "top top",
+                end: "+=200%", 
+                pin: true,
+                scrub: 1.5, // 1.5s smoothing effect for buttery scroll
+            },
+            onUpdate: () => renderFrame(Math.round(sequence.frame))
+        });
+    }
 
     // Skills 3D ScrollTrigerr Animation
     if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
